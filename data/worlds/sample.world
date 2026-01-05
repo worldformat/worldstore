@@ -1,0 +1,56 @@
+# --------------------------------------------------
+# sample.world
+# --------------------------------------------------
+# This file represents the complete state of an app.
+# Editing this file *is* the operation.
+# --------------------------------------------------
+
+[app]
+name = "Sample World"
+description = "A minimal example world for worldstore"
+createdAt = "2026-01-03"
+
+# --------------------------------------------------
+# Domains
+# --------------------------------------------------
+
+[domains/alphaform]
+name = "Alphaform"
+description = "An abstract project used for demonstration"
+startYear = 2024
+endYear = 2025
+
+[domains/alphaform/tasks]
+name = "Draft initial outline"
+done = true
+
+[domains/alphaform/tasks]
+name = "Review structure"
+done = false
+
+
+[domains/betavault]
+name = "Betavault"
+description = "A placeholder knowledge container"
+startYear = 2025
+
+[domains/betavault/tasks]
+name = "Collect sample entries"
+done = true
+
+[domains/betavault/tasks]
+name = "Reorganize notes"
+done = false
+
+
+[domains/gammalith]
+name = "Gammalith"
+description = "A fictional long-term archive concept"
+
+# --------------------------------------------------
+# Settings
+# --------------------------------------------------
+
+[settings]
+theme = "light"
+showCompletedTasks = true

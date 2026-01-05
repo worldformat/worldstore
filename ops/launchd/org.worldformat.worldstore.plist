@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>org.worldformat.worldstore</string>
+
+    <key>ProgramArguments</key>
+    <array>
+      <string>__HOME__/Applications/Worldstore.app/bin/node</string>
+      <string>__HOME__/Applications/Worldstore.app/dist/index.js</string>
+    </array>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>HOST</key>
+      <string>127.0.0.1</string>
+      <key>PORT</key>
+      <string>43721</string>
+      <key>ORIGIN</key>
+      <string>http://localhost:43721</string>
+      <key>WORLDSTORE_LOCAL_PATH</key>
+      <string>__HOME__/Library/Application Support/org.worldformat.worldstore/worlds</string>
+    </dict>
+
+    <key>WorkingDirectory</key>
+    <string>__HOME__/Applications/Worldstore.app</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <dict>
+      <key>SuccessfulExit</key>
+      <false/>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>__HOME__/Library/Logs/Worldstore/out.log</string>
+    <key>StandardErrorPath</key>
+    <string>__HOME__/Library/Logs/Worldstore/err.log</string>
+  </dict>
+</plist>
