@@ -1,13 +1,12 @@
 import { getWorldContent, updateWorldContent } from '$lib/server/world/local';
-import { fail, redirect, type Actions } from '@sveltejs/kit';
+import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { decode } from 'decode-formdata';
 import * as v from 'valibot';
 
 export const load: PageServerLoad = async ({ params }) => {
-	const id = params.worldId;
-	const content = await getWorldContent(id);
-	const world = { id, content };
+	const content = await getWorldContent(params.id);
+	const world = { id: params.id, content };
 	return { world };
 };
 
@@ -18,7 +17,7 @@ type WorldData = v.InferOutput<typeof WorldData>;
 
 export const actions = {
 	default: async ({ params, request }) => {
-		const id = params.worldId!;
+		const id = params.id || error(404, 'No world');
 		const data = decode(await request.formData());
 		const parsed = v.safeParse(WorldData, data);
 		if (!parsed.success) {

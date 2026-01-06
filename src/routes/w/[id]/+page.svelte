@@ -18,8 +18,10 @@
 	</div>
 	<div class="flex mb-2 gap-x-3">
 		<h1 class="mb-0 flex-1">{data.world.id}</h1>
-		<TabBar {tabs} class="not-prose" />
-		<WorldMenu />
+		<div class="not-prose flex gap-x-3">
+			<TabBar {tabs} />
+			<WorldMenu worldId={data.world.id} />
+		</div>
 	</div>
 	<pre>{data.world.content}</pre>
 </Prose>

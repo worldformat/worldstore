@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon';
-import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
+import { access, mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { env } from '$env/dynamic/private';
+import { constants } from 'node:fs';
 
 const WORLDS_DIR = env.WORLDSTORE_LOCAL_PATH ?? join(process.cwd(), 'data/worlds');
 
@@ -19,6 +20,19 @@ export async function getWorlds() {
 	} catch (err) {
 		// Treat a missing directory as an empty world list
 		return [];
+	}
+}
+
+export async function hasWorld(id: string): Promise<boolean> {
+	const filePath = join(WORLDS_DIR, `${id}.world`);
+
+	try {
+		await access(filePath, constants.F_OK);
+		return true;
+	} catch (err: any) {
+		console.error(err);
+		if (err.code === 'ENOENT') return false;
+		throw err;
 	}
 }
 

@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>{page.params.worldId} – Worldstore</title>
+  <title>{page.params.id} – Worldstore</title>
 </svelte:head>
 
 {@render children()}
