@@ -38,10 +38,12 @@
 	<div class="mb-2">
 		<a href="/" class="text-sm no-underline hover:underline text-secondary">&larr; Back to Worlds</a>
 	</div>
-	<div class="flex mb-2 gap-x-3">
+	<div class="not-prose flex mb-2 gap-x-3">
 		<h1 class="mb-0 flex-1">{data.world.id}</h1>
-		<TabBar {tabs} class="not-prose" />
-    <WorldMenu />
+		<div class="not-prose flex gap-x-3">
+      <TabBar {tabs} />
+      <WorldMenu worldId={data.world.id} />
+    </div>
 	</div>
   <form bind:this={editor} method="post" class="mt-6" use:enhance={() => ({ result }) => {
     if (result.type ===  'redirect') {
