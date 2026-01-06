@@ -38,7 +38,7 @@
 	<div class="mb-2">
 		<a href="/" class="text-sm no-underline hover:underline text-secondary">&larr; Back to Worlds</a>
 	</div>
-	<div class="not-prose flex mb-2 gap-x-3">
+	<div class="flex mb-2 gap-x-3">
 		<h1 class="mb-0 flex-1">{data.world.id}</h1>
 		<div class="not-prose flex gap-x-3">
       <TabBar {tabs} />
