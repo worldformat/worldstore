@@ -9,7 +9,12 @@
 </svelte:head>
 
 <Prose class="mx-auto max-w-prose px-4 py-8">
-	<h1>Worlds</h1>
+	<div class="flex gap-x-3 justify-between">
+		<h1>Worlds</h1>
+		<div class="not-prose">
+			<a href="/w/new" class="btn btn-primary px-3 py-2">New World</a>
+		</div>
+	</div>
 	{#if data.worlds.length}
 		<ul>
 			{#each data.worlds as world}
