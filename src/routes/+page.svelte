@@ -4,6 +4,10 @@
 	let { data } = $props();
 </script>
 
+<svelte:head>
+	<title>Worldstore</title>
+</svelte:head>
+
 <Prose class="mx-auto max-w-prose px-4 py-8">
 	<h1>Worlds</h1>
 	{#if data.worlds.length}
