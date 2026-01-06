@@ -1,4 +1,4 @@
-import { getWorldContent } from "$lib/world/local";
+import { getWorldContent } from "$lib/server/world/local";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ params }) => {

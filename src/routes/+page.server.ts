@@ -1,4 +1,4 @@
-import { getWorlds } from "$lib/world/local";
+import { getWorlds } from "$lib/server/world/local";
 import type { PageServerLoad } from "./$types";
 
 

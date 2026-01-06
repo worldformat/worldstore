@@ -1,4 +1,4 @@
-import { getWorldContent, updateWorldContent } from '$lib/world/local';
+import { getWorldContent, updateWorldContent } from '$lib/server/world/local';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { decode } from 'decode-formdata';
