@@ -9,16 +9,22 @@
 </svelte:head>
 
 <Prose class="mx-auto max-w-prose px-4 py-8">
-	<div class="flex gap-x-3 justify-between">
+	<div class="flex justify-between gap-x-3">
 		<h1>Worlds</h1>
 		<div class="not-prose">
 			<a href="/w/new" class="btn btn-primary px-3 py-2">New World</a>
 		</div>
 	</div>
 	{#if data.worlds.length}
-		<ul>
+		<ul class="mt-0 list-none pl-0">
 			{#each data.worlds as world}
-				<li><a href="/w/{world.id}" class="no-underline focus:underline">{world.id}</a></li>
+				<li class="my-0! pl-0">
+					<a
+						href="/w/{world.id}"
+						class="text-l -mx-4 block px-4 py-2 no-underline sm:rounded-md hocus:bg-gray-150 hocus:dark:bg-gray-800"
+						>{world.id}</a
+					>
+				</li>
 			{/each}
 		</ul>
 	{:else}
