@@ -1,3 +1,4 @@
+import { createWorld } from '$lib/server/world/local';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { decode } from 'decode-formdata';
 import * as v from 'valibot';
@@ -21,8 +22,14 @@ export const actions = {
 			return fail(400, { issues: v.flatten(parsed.issues).nested });
 		}
 
-		// TODO: create the world
+		const { id, content } = parsed.output;
+		try {
+			await createWorld(id, content);
+		} catch (err: any) {
+			console.error(err);
+			return fail(500, { message: `Failed to create the world: ${err?.message}` });
+		}
 
-    redirect(303, `/w/${parsed.output.id}`)
+		redirect(303, `/w/${id}`);
 	}
 } satisfies Actions;
