@@ -1,4 +1,4 @@
-import { getWorldContent, hasWorld } from "$lib/server/world/local";
+import { deleteWorld, getWorldContent, hasWorld } from "$lib/server/world/local";
 import { error, redirect, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
@@ -14,12 +14,7 @@ export const actions = {
     const has = await hasWorld(id)
     if (!has) error(404, "No world");
 
-    await deleteWorld(params.id!);
+    await deleteWorld(id);
     redirect(303, '/');
   }
 } satisfies Actions;
-
-async function deleteWorld(id: string) {
-  // TODO
-  console.log('delete:', id)
-}

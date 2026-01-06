@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { access, mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
+import { access, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { env } from '$env/dynamic/private';
 import { constants } from 'node:fs';
@@ -75,6 +75,11 @@ export async function updateWorldContent(id: string, content: string) {
 }
 
 export async function deleteWorld(id: string) {
-	// TODO
+	const currentPath = join(WORLDS_DIR, `${id}.world`);
+	const historyRoot = join(WORLDS_DIR, id);
 
+	await Promise.all([
+		rm(currentPath, { force: true }),
+		rm(historyRoot, { recursive: true, force: true })
+	]);
 }
