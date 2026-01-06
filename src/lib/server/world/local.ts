@@ -73,3 +73,8 @@ export async function updateWorldContent(id: string, content: string) {
 		throw err;
 	}
 }
+
+export async function deleteWorld(id: string) {
+	// TODO
+
+}
