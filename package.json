@@ -38,6 +38,7 @@
 		"autosize": "^6.0.1",
 		"decode-formdata": "^0.9.0",
 		"luxon": "^3.7.2",
+		"melt": "^0.44.0",
 		"valibot": "^1.2.0"
 	}
 }

@@ -1,5 +1,5 @@
 import { getWorldContent, hasWorld } from "$lib/server/world/local";
-import { error, type Actions } from "@sveltejs/kit";
+import { error, redirect, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -15,6 +15,7 @@ export const actions = {
     if (!has) error(404, "No world");
 
     await deleteWorld(params.id!);
+    redirect(303, '/');
   }
 } satisfies Actions;
 
