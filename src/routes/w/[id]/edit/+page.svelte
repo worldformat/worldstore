@@ -4,7 +4,7 @@
   import autosize from "$lib/attachments/autosize";
 	import Prose from "$lib/components/Prose.svelte";
 	import TabBar, { type Tab } from "$lib/components/TabBar.svelte";
-	import WorldMenu from "$lib/components/w/WorldMenu.svelte";
+	import WorldMenu from "$lib/components/world/WorldMenu.svelte";
 
   let { data, form } = $props();
   let editor: HTMLFormElement
