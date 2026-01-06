@@ -6,6 +6,13 @@ import { constants } from 'node:fs';
 
 const WORLDS_DIR = env.WORLDSTORE_LOCAL_PATH ?? join(process.cwd(), 'data/worlds');
 
+export async function createWorld(id: string, content: string) {
+	const filePath = join(WORLDS_DIR, `${id}.world`);
+
+	await mkdir(WORLDS_DIR, { recursive: true });
+	await writeFile(filePath, content, { flag: 'wx' });
+}
+
 export async function getWorlds() {
 	try {
 		const files = await readdir(WORLDS_DIR, { withFileTypes: true });
