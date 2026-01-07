@@ -1,9 +1,9 @@
-import { deleteWorld, getWorldContent, hasWorld } from "$lib/server/world/local";
 import { error, redirect, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
+import { worldstore } from "$lib/server/worldstore";
 
 export const load: PageServerLoad = async ({ params }) => {
-  const content = await getWorldContent(params.id);
+  const content = await worldstore.getWorldContent(params.id);
   if (content === null) error(404, "No world");
 
   const world = { id: params.id, content };
@@ -13,10 +13,10 @@ export const load: PageServerLoad = async ({ params }) => {
 export const actions = {
   delete: async ({ params }) => {
     const id = params.id || error(404, "No world");
-    const has = await hasWorld(id)
+    const has = await worldstore.hasWorld(id)
     if (!has) error(404, "No world");
 
-    await deleteWorld(id);
+    await worldstore.deleteWorld(id);
     redirect(303, '/');
   }
 } satisfies Actions;

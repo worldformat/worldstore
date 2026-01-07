@@ -1,12 +1,12 @@
-import { getWorldContent, updateWorldContent } from '$lib/server/world/local';
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { decode } from 'decode-formdata';
 import * as v from 'valibot';
 import { parse } from 'worldformat';
+import { worldstore } from '$lib/server/worldstore';
 
 export const load: PageServerLoad = async ({ params }) => {
-	const content = await getWorldContent(params.id);
+	const content = await worldstore.getWorldContent(params.id);
 	if (content === null) error(404, "No world");
 
 	const world = { id: params.id, content };
@@ -35,7 +35,7 @@ export const actions = {
 		}
 
 		try {
-			await updateWorldContent(id, content);
+			await worldstore.updateWorldContent(id, content);
 		} catch (err: any) {
 			console.error(err);
 			return fail(500, { message: `Error saving the world: ${err.message}` });

@@ -1,8 +1,8 @@
-import { createWorld } from '$lib/server/world/local';
 import { parse } from 'worldformat';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { decode } from 'decode-formdata';
 import * as v from 'valibot';
+import { worldstore } from '$lib/server/worldstore';
 
 const NewWorld = v.object({
 	id: v.pipe(
@@ -31,7 +31,7 @@ export const actions = {
 		}
 
 		try {
-			await createWorld(id, content);
+			await worldstore.createWorld(id, content);
 		} catch (err: any) {
 			console.error(err);
 			return fail(500, { message: `Error creating the world: ${err?.message}` });
