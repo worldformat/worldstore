@@ -1,9 +1,9 @@
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getWorldContent } from '$lib/server/world/local';
+import { worldstore } from '$lib/server/worldstore';
 
 export const GET: RequestHandler = async ({ params }) => {
-	const content = await getWorldContent(params.id);
+	const content = await worldstore.getWorldContent(params.id);
 	if (content === null) {
 		error(404, 'World not found');
 	}
