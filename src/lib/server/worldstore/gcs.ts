@@ -17,7 +17,7 @@ export class GCSWorldstore implements Worldstore {
 
 	async getWorlds(): Promise<{ id: string }[]> {
 		const options: GetFilesOptions = { prefix: this.prefix };
-		const [files] = await this.storage.bucket(this.bucket).getFiles(options);
+		const [files] = await this.getBucket().getFiles(options);
 		return files
 			.filter((file) => file.name.endsWith('.world'))
 			.map((file) => {
@@ -36,13 +36,24 @@ export class GCSWorldstore implements Worldstore {
 	hasWorld(id: string): Promise<boolean> {
 		throw new Error('Method not implemented.');
 	}
-	getWorldContent(id: string): Promise<string | null> {
-		throw new Error('Method not implemented.');
+
+	async getWorldContent(id: string): Promise<string | null> {
+		const resp = await this.getBucket().file(this.getPath(id)).download();
+		return resp.toString();
 	}
+
 	updateWorldContent(id: string, content: string): Promise<void> {
 		throw new Error('Method not implemented.');
 	}
 	deleteWorld(id: string): Promise<void> {
 		throw new Error('Method not implemented.');
+	}
+
+	private getBucket() {
+		return this.storage.bucket(this.bucket);
+	}
+
+	private getPath(id: string) {
+		return `${this.prefix}${id}.world`;
 	}
 }
