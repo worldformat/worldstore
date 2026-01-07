@@ -25,4 +25,4 @@ vite.config.ts.timestamp-*
 # Worldstore
 /data/worlds/*.world
 !/data/worlds/sample.world
-/data/worlds/*/history
+/data/worlds/history/
