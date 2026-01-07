@@ -7,6 +7,8 @@ import { parse } from 'worldformat';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const content = await getWorldContent(params.id);
+	if (content === null) error(404, "No world");
+
 	const world = { id: params.id, content };
 	return { world };
 };
