@@ -56,7 +56,7 @@ export async function getWorldContent(id: string) {
 
 export async function updateWorldContent(id: string, content: string) {
 	const currentPath = join(WORLDS_DIR, `${id}.world`);
-	const historyDir = join(WORLDS_DIR, id, 'history');
+	const historyDir = join(WORLDS_DIR, 'history', id);
 
 	try {
 		// 1. If an existing world exists, move it to history
@@ -83,7 +83,7 @@ export async function updateWorldContent(id: string, content: string) {
 
 export async function deleteWorld(id: string) {
 	const currentPath = join(WORLDS_DIR, `${id}.world`);
-	const historyRoot = join(WORLDS_DIR, id);
+	const historyRoot = join(WORLDS_DIR, 'history', id);
 
 	await Promise.all([
 		rm(currentPath, { force: true }),
