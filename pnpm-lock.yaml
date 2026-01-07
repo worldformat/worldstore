@@ -23,6 +23,9 @@ importers:
       valibot:
         specifier: ^1.2.0
         version: 1.2.0(typescript@5.9.3)
+      worldformat:
+        specifier: github:worldformat/worldformat
+        version: https://codeload.github.com/worldformat/worldformat/tar.gz/01b501ed50f7d7bbb6efada310bc00fe0cf32850
     devDependencies:
       '@iconify-json/heroicons':
         specifier: ^1.2.3
@@ -1184,6 +1187,10 @@ packages:
   webpack-virtual-modules@0.6.2:
     resolution: {integrity: sha512-66/V2i5hQanC51vBQKPH4aI8NMAcBW59FVBs+rC7eGHupMyfn34q7rZIE+ETlJ+XTevqfUhVVBgSUNSW2flEUQ==}
 
+  worldformat@https://codeload.github.com/worldformat/worldformat/tar.gz/01b501ed50f7d7bbb6efada310bc00fe0cf32850:
+    resolution: {tarball: https://codeload.github.com/worldformat/worldformat/tar.gz/01b501ed50f7d7bbb6efada310bc00fe0cf32850}
+    version: 0.1.0
+
   zimmerframe@1.1.4:
     resolution: {integrity: sha512-B58NGBEoc8Y9MWWCQGl/gq9xBCe4IiKM0a2x7GZdQKOW5Exr8S1W24J6OgM1njK8xCRGvAJIL/MxXHf6SkmQKQ==}
 
@@ -2048,5 +2055,7 @@ snapshots:
       vite: 7.3.0(@types/node@25.0.3)(jiti@2.6.1)(lightningcss@1.30.2)
 
   webpack-virtual-modules@0.6.2: {}
+
+  worldformat@https://codeload.github.com/worldformat/worldformat/tar.gz/01b501ed50f7d7bbb6efada310bc00fe0cf32850: {}
 
   zimmerframe@1.1.4: {}

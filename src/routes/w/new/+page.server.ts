@@ -1,5 +1,5 @@
 import { createWorld } from '$lib/server/world/local';
-import { parse } from '$lib/worldformat';
+import { parse } from 'worldformat';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { decode } from 'decode-formdata';
 import * as v from 'valibot';
@@ -27,7 +27,7 @@ export const actions = {
 		try {
 			parse(content);
 		} catch (err: any) {
-			return fail(400, { issues: { content: `Invalid world format: ${err.message}` } });
+			return fail(400, { issues: { id: undefined, content: `Invalid world format: ${err.message}` } });
 		}
 
 		try {

@@ -3,7 +3,7 @@ import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { decode } from 'decode-formdata';
 import * as v from 'valibot';
-import { parse } from '$lib/worldformat';
+import { parse } from 'worldformat';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const content = await getWorldContent(params.id);
