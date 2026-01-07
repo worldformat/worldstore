@@ -1,4 +1,6 @@
 import { LocalWorldstore } from './local';
+import { env } from '$env/dynamic/private'
+import { GCSWorldstore } from './gcs';
 
 export interface Worldstore {
 	createWorld(id: string, content: string): Promise<void>;
@@ -9,4 +11,11 @@ export interface Worldstore {
 	deleteWorld(id: string): Promise<void>;
 }
 
-export const worldstore: Worldstore = new LocalWorldstore();
+function createWorldstore(): Worldstore {
+	if (env.WORLDSTORE_STORAGE === 'gcs') {
+		return new GCSWorldstore();
+	}
+	return new LocalWorldstore();
+}
+
+export const worldstore = createWorldstore();
