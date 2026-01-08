@@ -1,5 +1,5 @@
 import type { Worldstore } from '.';
-import { Storage, type GetFilesOptions, type SaveOptions } from '@google-cloud/storage';
+import { Storage, type GetFilesOptions } from '@google-cloud/storage';
 
 export class GCSWorldstore implements Worldstore {
 	private storage: Storage;
@@ -11,8 +11,8 @@ export class GCSWorldstore implements Worldstore {
 		this.storage = new Storage();
 	}
 
-	createWorld(id: string, content: string): Promise<void> {
-		throw new Error('Method not implemented.');
+	async createWorld(id: string, content: string): Promise<void> {
+		await this.getFile(id).save(content, { contentType: 'text/plain' });
 	}
 
 	async getWorlds(): Promise<{ id: string }[]> {
@@ -44,12 +44,11 @@ export class GCSWorldstore implements Worldstore {
 	}
 
 	async updateWorldContent(id: string, content: string): Promise<void> {
-		const options: SaveOptions = { contentType: 'text/plain' };
-		await this.getFile(id).save(content, options);
+		await this.getFile(id).save(content, { contentType: 'text/plain' });
 	}
 
-	deleteWorld(id: string): Promise<void> {
-		throw new Error('Method not implemented.');
+	async deleteWorld(id: string): Promise<void> {
+    await this.getFile(id).delete();
 	}
 
 	private getFile(id: string) {
