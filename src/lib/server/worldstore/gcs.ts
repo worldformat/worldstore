@@ -3,12 +3,16 @@ import { Storage, type GetFilesOptions } from '@google-cloud/storage';
 
 export class GCSWorldstore implements Worldstore {
 	private storage: Storage;
+  private prefix?: string;
 
 	constructor(
 		private bucket: string,
-		private prefix?: string
+		prefix?: string
 	) {
 		this.storage = new Storage();
+    if (prefix) {
+      this.prefix = prefix.endsWith('/') ? prefix : `${prefix}/`;
+    }
 	}
 
 	async createWorld(id: string, content: string): Promise<void> {
