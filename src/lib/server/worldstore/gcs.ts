@@ -33,8 +33,9 @@ export class GCSWorldstore implements Worldstore {
 			});
 	}
 
-	hasWorld(id: string): Promise<boolean> {
-		throw new Error('Method not implemented.');
+	async hasWorld(id: string): Promise<boolean> {
+    const [exists] = await this.getBucket().file(this.getPath(id)).exists();
+    return exists;
 	}
 
 	async getWorldContent(id: string): Promise<string | null> {
