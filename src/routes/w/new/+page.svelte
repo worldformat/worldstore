@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
 	import Prose from '$lib/components/Prose.svelte';
-	import { addToast } from '$lib/components/Toaster.svelte';
 	import autosize from '$lib/attachments/autosize';
 
 	let { form } = $props();
 	let editor: HTMLFormElement;
 	let content = $state('');
+	let submitting = $state(false);
 
 	function handleKeydown(event: KeyboardEvent) {
 		if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
@@ -24,7 +24,10 @@
 
 	<h1>New World</h1>
 
-	<form bind:this={editor} method="post" class="not-prose mt-6" use:enhance>
+	<form bind:this={editor} method="post" class="not-prose mt-6" use:enhance={() => {
+		submitting = true;
+		return ({ result }) => applyAction(result).finally(() => submitting = false);
+	}}>
     <div class="border-b border-gray-900/10 pb-6 mb-4 dark:border-white/10">
       <div>
         <input type="text" name="id" placeholder="World ID" class="form-control w-full" required />
@@ -46,7 +49,7 @@
     {#if form?.message}<p class="error">{form.message}</p>{/if}
 		<div class="flex justify-end mt-1 gap-x-2">
 			<a class="btn btn-ghost px-3 py-1.5 no-underline" href="/">Cancel</a>
-			<button type="submit" class="btn btn-primary px-3 py-1.5">Save</button>
+			<button type="submit" class="btn btn-primary px-3 py-1.5" disabled={submitting}>Save</button>
 		</div>
 	</form>
 </Prose>
