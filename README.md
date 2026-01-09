@@ -107,6 +107,9 @@ Breaking changes are possible.
 - **World Format** — the document format used by worldstore  
   https://worldformat.org
 
+- **[worldformat](https://github.com/worldformat/worldformat)**  
+  The reference implementation of the World Format parser and related utilities.
+
 ## License
 
 MIT
