@@ -17,7 +17,7 @@ function createWorldstore(): Worldstore {
 		const prefix = pathParts.join('/');
 		return new GCSWorldstore(bucket, prefix);
 	}
-	return new LocalWorldstore();
+	return new LocalWorldstore(env.WORLDSTORE_URL);
 }
 
 export const worldstore = createWorldstore();

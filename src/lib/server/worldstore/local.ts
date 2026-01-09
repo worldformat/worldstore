@@ -1,23 +1,34 @@
 import { DateTime } from 'luxon';
 import { access, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
-import { env } from '$env/dynamic/private';
+import { isAbsolute, join } from 'node:path';
 import { constants } from 'node:fs';
 import type { Worldstore } from '.';
 
-const WORLDS_DIR = env.WORLDSTORE_LOCAL_PATH ?? join(process.cwd(), 'data/worlds');
-
 export class LocalWorldstore implements Worldstore {
-	async createWorld(id: string, content: string) {
-		const filePath = join(WORLDS_DIR, `${id}.world`);
+	private worldsDir: string;
 
-		await mkdir(WORLDS_DIR, { recursive: true });
+	constructor(worldsDir?: string) {
+		if (!worldsDir) {
+			this.worldsDir = join(process.cwd(), 'data/worlds');
+		} else if (isAbsolute(worldsDir)) {
+			// absolute path
+			this.worldsDir = worldsDir;
+		} else {
+			// relative path
+			this.worldsDir = join(process.cwd(), worldsDir);
+		}
+	}
+
+	async createWorld(id: string, content: string) {
+		const filePath = join(this.worldsDir, `${id}.world`);
+
+		await mkdir(this.worldsDir, { recursive: true });
 		await writeFile(filePath, content, { flag: 'wx' });
 	}
 
 	async getWorlds() {
 		try {
-			const files = await readdir(WORLDS_DIR, { withFileTypes: true });
+			const files = await readdir(this.worldsDir, { withFileTypes: true });
 
 			return files
 				.filter((f) => f.isFile())
@@ -33,7 +44,7 @@ export class LocalWorldstore implements Worldstore {
 	}
 
 	async hasWorld(id: string): Promise<boolean> {
-		const filePath = join(WORLDS_DIR, `${id}.world`);
+		const filePath = join(this.worldsDir, `${id}.world`);
 
 		try {
 			await access(filePath, constants.F_OK);
@@ -46,7 +57,7 @@ export class LocalWorldstore implements Worldstore {
 	}
 
 	async getWorldContent(id: string) {
-		const filePath = join(WORLDS_DIR, `${id}.world`);
+		const filePath = join(this.worldsDir, `${id}.world`);
 
 		try {
 			return await readFile(filePath, 'utf-8');
@@ -57,8 +68,8 @@ export class LocalWorldstore implements Worldstore {
 	}
 
 	async updateWorldContent(id: string, content: string) {
-		const currentPath = join(WORLDS_DIR, `${id}.world`);
-		const historyDir = join(WORLDS_DIR, 'history', id);
+		const currentPath = join(this.worldsDir, `${id}.world`);
+		const historyDir = join(this.worldsDir, 'history', id);
 
 		try {
 			// 1. If an existing world exists, move it to history
@@ -84,8 +95,8 @@ export class LocalWorldstore implements Worldstore {
 	}
 
 	async deleteWorld(id: string) {
-		const currentPath = join(WORLDS_DIR, `${id}.world`);
-		const historyRoot = join(WORLDS_DIR, 'history', id);
+		const currentPath = join(this.worldsDir, `${id}.world`);
+		const historyRoot = join(this.worldsDir, 'history', id);
 
 		await Promise.all([
 			rm(currentPath, { force: true }),
