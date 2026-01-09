@@ -11,6 +11,7 @@
   let content = $state('');
   let dirty = $derived(data.world.content !== content);
   let bypassConfirm = $state(false);
+  let submitting = $state(false);
 
 	const tabs: Tab[] = $derived([
 		{ label: "View", href: `/w/${data.world.id}` },
@@ -45,11 +46,14 @@
       <WorldMenu worldId={data.world.id} />
     </div>
 	</div>
-  <form bind:this={editor} method="post" class="not-prose mt-6" use:enhance={() => ({ result }) => {
-    if (result.type ===  'redirect') {
-      bypassConfirm = true;
+  <form bind:this={editor} method="post" class="not-prose mt-6" use:enhance={() => {
+    submitting = true;
+    return ({ result }) => {
+      if (result.type ===  'redirect') {
+        bypassConfirm = true;
+      }
+      return applyAction(result).finally(() => submitting = false);
     }
-    return applyAction(result);
   }}>
     <div class="border-b border-gray-900/10 pb-6 mb-4 dark:border-white/10">
       <textarea
@@ -68,7 +72,7 @@
     {#if form?.message}<p class="error">{form.message}</p>{/if}
     <div class="flex gap-x-2 justify-end mt-1">
       <a class="btn btn-ghost px-3 py-1.5 no-underline" href="/w/{data.world.id}" onclick={() => bypassConfirm = true}>Cancel</a>
-      <button type="submit" class="btn btn-primary px-3 py-1.5">Save</button>
+      <button type="submit" class="btn btn-primary px-3 py-1.5" disabled={submitting}>Save</button>
     </div>
   </form>
 </Prose>
