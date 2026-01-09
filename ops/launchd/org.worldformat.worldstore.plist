@@ -20,7 +20,7 @@
       <string>43721</string>
       <key>ORIGIN</key>
       <string>http://localhost:43721</string>
-      <key>WORLDSTORE_LOCAL_PATH</key>
+      <key>WORLDSTORE_URL</key>
       <string>__HOME__/Library/Application Support/org.worldformat.worldstore/worlds</string>
     </dict>
 
