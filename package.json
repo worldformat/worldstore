@@ -11,7 +11,10 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
-		"lint": "prettier --check ."
+		"lint": "prettier --check .",
+		"docker:build": "docker build -t $DOCKER_IMAGE --platform=linux/amd64 . ",
+		"docker:push": "docker push $DOCKER_IMAGE",
+		"gcloud:deploy": "gcloud run deploy $SERVICE_NAME --image=$DOCKER_IMAGE --region=$REGION"
 	},
 	"devDependencies": {
 		"@iconify-json/heroicons": "^1.2.3",
