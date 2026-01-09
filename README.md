@@ -102,13 +102,16 @@ The design prioritizes:
 
 Breaking changes are possible.
 
-## Related
+## Related Projects
 
-- **World Format** — the document format used by worldstore  
-  https://worldformat.org
+- **[World Format](https://worldformat.org)**  
+  The document format used by worldstore.
 
 - **[worldformat](https://github.com/worldformat/worldformat)**  
   The reference implementation of the World Format parser and related utilities.
+
+- **[worldformat.org](https://github.com/worldformat/worldformat.org)**  
+  Source repository for the official World Format website.
 
 ## License
 
