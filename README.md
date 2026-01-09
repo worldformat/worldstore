@@ -43,28 +43,37 @@ It tries to be a place where a world can exist.
 
 ## API (minimal)
 
-The primary API operates on raw World text.
+worldstore exposes a minimal HTTP API focused on **reading** World documents.
+
+Currently implemented:
 
 ```
 GET    /worlds/{worldId}
-PUT    /worlds/{worldId}
-POST   /worlds
-DELETE /worlds/{worldId}
 ```
-- Body: raw World text
-- No JSON schema exposed
-- No partial updates
 
-History is managed internally.
+- Returns raw World text
+- No JSON schema exposed
+- No partial views
+
+All write operations (create / update / delete) are currently performed
+via the built-in UI.
+
+History handling depends on the storage backend.
+
+For local storage, worldstore manages history internally.
+For object storage backends (such as GCS), history relies on native object versioning.
 
 ## Storage
 
-worldstore is storage-agnostic.
+worldstore is designed to be storage-agnostic in principle.
 
-Possible backends:
-- Object Storage (S3 / GCS / etc.)
-- Relational DB (TEXT column)
-- Local filesystem (development)
+Currently supported backends:
+- Local filesystem
+- Google Cloud Storage (GCS)
+
+Other backends (such as S3 or relational databases) are not implemented.
+Pull requests adding new storage backends are welcome, but there is no
+roadmap commitment to support them.
 
 The storage layer is responsible for persistence and history,
 not interpretation.
