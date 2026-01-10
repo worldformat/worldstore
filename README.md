@@ -1,8 +1,8 @@
 # worldstore
 
-A minimal host for **human-editable World files**, with built-in UI and history.
+A minimal host for **human-editable World files**, with built-in UI, API, and history.
 
-worldstore provides a place to store, edit, and manage World documents —
+worldstore provides a place to store, edit, and serve World documents —
 one file per user per app — without forcing early schema, CRUD UI, or database design.
 
 ## What is this?
@@ -11,6 +11,7 @@ worldstore is:
 
 - a local or server-side service
 - with a simple management UI
+- exposing a minimal HTTP API
 - backed by Object Storage or RDB (pluggable)
 - designed around the **World Format**
 
@@ -26,9 +27,9 @@ No forms required.
 - The document represents the entire state
 - Editing the file *is* the operation
 - History is automatic
-- UI is a thin layer over storage
+- UI and API are thin layers over storage
 
-worldstore does not try to be a database.  
+worldstore does not try to be a database.
 It tries to be a place where a world can exist.
 
 ## Features
@@ -39,6 +40,28 @@ It tries to be a place where a world can exist.
 - Automatic history on update
 - Rollback-friendly by design
 - Local-first, cloud-capable
+
+## API (minimal)
+
+worldstore exposes a minimal HTTP API focused on **reading** World documents.
+
+Currently implemented:
+
+```
+GET    /worlds/{worldId}
+```
+
+- Returns raw World text
+- No JSON schema exposed
+- No partial views
+
+All write operations (create / update / delete) are currently performed
+via the built-in UI.
+
+History handling depends on the storage backend.
+
+For local storage, worldstore manages history internally.
+For object storage backends (such as GCS), history relies on native object versioning.
 
 ## Storage
 
