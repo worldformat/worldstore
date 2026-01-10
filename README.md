@@ -43,17 +43,27 @@ It tries to be a place where a world can exist.
 
 ## API (minimal)
 
-worldstore exposes a minimal HTTP API focused on **reading** World documents.
+worldstore exposes a minimal HTTP API for accessing World documents.
 
-Currently implemented:
+### Raw World text
 
 ```
-GET    /worlds/{worldId}
+GET /worlds/{worldId}
 ```
 
 - Returns raw World text
 - No JSON schema exposed
 - No partial views
+
+### Parsed World (JSON)
+
+```
+GET /api/worlds/{worldId}/json
+```
+
+- Returns the parsed World as JSON
+- Parsing is performed by worldstore
+- If the World cannot be parsed, the API returns `400 Bad Request`
 
 All write operations (create / update / delete) are currently performed
 via the built-in UI.
