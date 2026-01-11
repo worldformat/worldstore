@@ -15,7 +15,8 @@ function createWorldstore(): Worldstore {
 	if (env.WORLDSTORE_URL?.startsWith('gs://')) {
 		const [bucket, ...pathParts] = env.WORLDSTORE_URL.substring(5).split('/');
 		const prefix = pathParts.join('/');
-		return new GCSWorldstore(bucket, prefix);
+		const cacheTtl = Number(env.WORLDSTORE_CACHE_TTL) || undefined;
+		return new GCSWorldstore(bucket, { prefix, cacheTtl });
 	}
 	return new LocalWorldstore(env.WORLDSTORE_URL);
 }

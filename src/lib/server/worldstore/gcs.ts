@@ -3,16 +3,25 @@ import { Storage, type GetFilesOptions } from '@google-cloud/storage';
 
 export class GCSWorldstore implements Worldstore {
 	private storage: Storage;
-  private prefix?: string;
+	private prefix?: string;
+	private cache = new Map<string, { content: string; ts: number }>();
+	private cacheTtl = 0; // milliseconds
 
 	constructor(
 		private bucket: string,
-		prefix?: string
+		options: {
+			prefix?: string;
+			cacheTtl?: number;
+		} = {}
 	) {
 		this.storage = new Storage();
-    if (prefix) {
-      this.prefix = prefix.endsWith('/') ? prefix : `${prefix}/`;
-    }
+		const { prefix, cacheTtl } = options;
+		if (prefix) {
+			this.prefix = prefix.endsWith('/') ? prefix : `${prefix}/`;
+		}
+		if (cacheTtl) {
+			this.cacheTtl = cacheTtl;
+		}
 	}
 
 	async createWorld(id: string, content: string): Promise<void> {
@@ -43,7 +52,15 @@ export class GCSWorldstore implements Worldstore {
 	}
 
 	async getWorldContent(id: string): Promise<string | null> {
+		const entry = this.cache.get(id);
+		if (entry && Date.now() - entry.ts < this.cacheTtl) {
+			return entry.content;
+		}
+
 		const resp = await this.getFile(id).download();
+		const content = resp.toString();
+
+		this.cache.set(id, { content, ts: Date.now() });
 		return resp.toString();
 	}
 
@@ -52,7 +69,7 @@ export class GCSWorldstore implements Worldstore {
 	}
 
 	async deleteWorld(id: string): Promise<void> {
-    await this.getFile(id).delete();
+		await this.getFile(id).delete();
 	}
 
 	private getFile(id: string) {
