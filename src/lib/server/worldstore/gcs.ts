@@ -26,6 +26,10 @@ export class GCSWorldstore implements Worldstore {
 
 	async createWorld(id: string, content: string): Promise<void> {
 		await this.getFile(id).save(content, { contentType: 'text/plain' });
+
+		if (this.cacheTtl) {
+			this.cache.set(id, { content, ts: Date.now() });
+		}
 	}
 
 	async getWorlds(): Promise<{ id: string }[]> {
@@ -52,16 +56,21 @@ export class GCSWorldstore implements Worldstore {
 	}
 
 	async getWorldContent(id: string): Promise<string | null> {
-		const entry = this.cache.get(id);
-		if (entry && Date.now() - entry.ts < this.cacheTtl) {
-			return entry.content;
+		if (this.cacheTtl) {
+			const entry = this.cache.get(id);
+			if (entry && Date.now() - entry.ts < this.cacheTtl) {
+				return entry.content;
+			}
 		}
 
 		try {
 			const resp = await this.getFile(id).download();
 			const content = resp.toString();
 
-			this.cache.set(id, { content, ts: Date.now() });
+			if (this.cacheTtl) {
+				this.cache.set(id, { content, ts: Date.now() });
+			}
+
 			return resp.toString();
 		} catch (err) {
 			if (err instanceof ApiError) {
@@ -73,10 +82,18 @@ export class GCSWorldstore implements Worldstore {
 
 	async updateWorldContent(id: string, content: string): Promise<void> {
 		await this.getFile(id).save(content, { contentType: 'text/plain' });
+
+		if (this.cacheTtl) {
+			this.cache.delete(id);
+		}
 	}
 
 	async deleteWorld(id: string): Promise<void> {
 		await this.getFile(id).delete();
+
+		if (this.cacheTtl) {
+			this.cache.delete(id);
+		}
 	}
 
 	private getFile(id: string) {
