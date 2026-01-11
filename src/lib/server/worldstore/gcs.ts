@@ -1,5 +1,5 @@
 import type { Worldstore } from '.';
-import { Storage, type GetFilesOptions } from '@google-cloud/storage';
+import { ApiError, Storage, type GetFilesOptions } from '@google-cloud/storage';
 
 export class GCSWorldstore implements Worldstore {
 	private storage: Storage;
@@ -57,11 +57,18 @@ export class GCSWorldstore implements Worldstore {
 			return entry.content;
 		}
 
-		const resp = await this.getFile(id).download();
-		const content = resp.toString();
+		try {
+			const resp = await this.getFile(id).download();
+			const content = resp.toString();
 
-		this.cache.set(id, { content, ts: Date.now() });
-		return resp.toString();
+			this.cache.set(id, { content, ts: Date.now() });
+			return resp.toString();
+		} catch (err) {
+			if (err instanceof ApiError) {
+				if (err.code === 404) return null;
+			}
+			throw err;
+		}
 	}
 
 	async updateWorldContent(id: string, content: string): Promise<void> {
@@ -81,6 +88,6 @@ export class GCSWorldstore implements Worldstore {
 	}
 
 	private getPath(id: string) {
-		return `${this.prefix}${id}.world`;
+		return `${this.prefix ?? ''}${id}.world`;
 	}
 }
