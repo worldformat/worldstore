@@ -14,7 +14,11 @@ export interface Worldstore {
 function createWorldstore(): Worldstore {
 	if (env.WORLDSTORE_URL?.startsWith('gs://')) {
 		const [bucket, ...pathParts] = env.WORLDSTORE_URL.substring(5).split('/');
-		const prefix = pathParts.join('/');
+		if (!bucket) {
+			throw new Error('Storage bucket is required.');
+		}
+
+		const prefix = pathParts.join('/') || undefined;
 		const cacheTtl = Number(env.WORLDSTORE_CACHE_TTL) || undefined;
 		return new GCSWorldstore(bucket, { prefix, cacheTtl });
 	}
