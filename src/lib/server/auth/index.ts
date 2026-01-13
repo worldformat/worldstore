@@ -25,7 +25,7 @@ type System = v.InferOutput<typeof System>;
 export function validateCredentials(username: string, password: string) {
 	if (!hasAuth) return true;
 
-	const [u, p] = env.WORLDSTORE_AUTH_CREDENTIALS.split(':', 2);
+	const [u, p] = env.WORLDSTORE_AUTH_CREDENTIALS!.split(':', 2);
 	if (!(u && p)) {
 		console.error('Invalid WORLDSTORE_AUTH_CREDENTIALS value.');
 		return false;
