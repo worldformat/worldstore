@@ -83,5 +83,5 @@ export async function validateSessionToken(token: string) {
 }
 
 export async function invalidateSession() {
-	await worldstore.updateWorldContent(SYSTEM_WORLD_ID, '// blank world\n');
+	await worldstore.updateWorldContent(SYSTEM_WORLD_ID, '# blank system world\n');
 }
