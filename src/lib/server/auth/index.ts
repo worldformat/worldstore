@@ -81,3 +81,7 @@ export async function validateSessionToken(token: string) {
 
 	return { expiresAt: new Date(session.expiresAt * 1000) };
 }
+
+export async function invalidateSession() {
+	await worldstore.updateWorldContent(SYSTEM_WORLD_ID, '// blank world\n');
+}
