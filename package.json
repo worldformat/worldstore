@@ -43,6 +43,7 @@
 		"decode-formdata": "^0.9.0",
 		"luxon": "^3.7.2",
 		"melt": "^0.44.0",
+		"nanoid": "^5.1.6",
 		"valibot": "^1.2.0",
 		"worldformat": "github:worldformat/worldformat"
 	}

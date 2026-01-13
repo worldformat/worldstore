@@ -3,6 +3,7 @@ import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { decode } from 'decode-formdata';
 import * as v from 'valibot';
 import { worldstore } from '$lib/server/worldstore';
+import { requireLogin } from '$lib/server/utils';
 
 const NewWorld = v.object({
 	id: v.pipe(
@@ -16,6 +17,7 @@ type NewWorld = v.InferOutput<typeof NewWorld>;
 
 export const actions = {
 	default: async ({ request }) => {
+		requireLogin();
 		const data = decode(await request.formData());
 		const parsed = v.safeParse(NewWorld, data);
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HeaderMenu from '$lib/components/header/HeaderMenu.svelte';
 	import Prose from '$lib/components/Prose.svelte';
 
 	let { data } = $props();
@@ -8,7 +9,11 @@
 	<title>Worldstore</title>
 </svelte:head>
 
-<Prose class="mx-auto max-w-prose px-4 py-8">
+<header class="border-b border-gray-150 dark:border-gray-800 px-4 py-2 flex justify-end">
+	<HeaderMenu />
+</header>
+
+<Prose class="mx-auto max-w-prose px-4 pt-6 pb-8">
 	<div class="flex justify-between gap-x-3">
 		<h1>Worlds</h1>
 		<div class="not-prose">
