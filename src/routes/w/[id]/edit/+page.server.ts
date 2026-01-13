@@ -4,6 +4,7 @@ import { decode } from 'decode-formdata';
 import * as v from 'valibot';
 import { parse } from 'worldformat';
 import { worldstore } from '$lib/server/worldstore';
+import { requireLogin } from '$lib/server/utils';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const content = await worldstore.getWorldContent(params.id);
@@ -20,6 +21,7 @@ type WorldData = v.InferOutput<typeof WorldData>;
 
 export const actions = {
 	default: async ({ params, request }) => {
+		requireLogin();
 		const id = params.id || error(404, 'No world');
 		const data = decode(await request.formData());
 		const parsed = v.safeParse(WorldData, data);

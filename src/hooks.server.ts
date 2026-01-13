@@ -1,4 +1,6 @@
 import { hasAuth, validateSessionToken } from '$lib/server/auth';
+import { SESSION_COOKIE_NAME } from '$lib/server/constants';
+import { deleteSessionCookie, setSessionCookie } from '$lib/server/cookie';
 import { type Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -8,11 +10,23 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return resolve(event);
 	}
 
-	if (hasAuth) {
-		const session = await validateSessionToken('xxx');
-		event.locals.session = session;
+	if (!hasAuth) {
 		return resolve(event);
 	}
 
+	const token = event.cookies.get(SESSION_COOKIE_NAME) ?? null;
+	if (token === null) {
+		event.locals.session = null;
+		return resolve(event);
+	}
+
+	const session = await validateSessionToken(token);
+	if (session != null) {
+		setSessionCookie(event, token, session.expiresAt);
+	} else {
+		deleteSessionCookie(event);
+	}
+
+	event.locals.session = session;
 	return resolve(event);
 };
