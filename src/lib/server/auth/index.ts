@@ -2,6 +2,8 @@ import { env } from '$env/dynamic/private';
 import * as v from 'valibot';
 import { worldstore } from '../worldstore';
 import { parse } from 'worldformat';
+import { DateTime } from 'luxon';
+import { nanoid } from 'nanoid';
 
 export const hasAuth = !!env.WORLDSTORE_AUTH_CREDENTIALS;
 
@@ -18,6 +20,30 @@ const System = v.object({
 	)
 });
 type System = v.InferOutput<typeof System>;
+
+export function validateCredentials(username: string, password: string) {
+  if (!hasAuth) return true;
+
+  const [u, p] = env.WORLDSTORE_AUTH_CREDENTIALS.split(':', 2);
+  if (!(u && p)) {
+    console.error('Invalid WORLDSTORE_AUTH_CREDENTIALS value.')
+    return false;
+  }
+
+  return username === u && password === p;
+}
+
+export function generateSessionToken() {
+  return nanoid();
+}
+
+export async function createSession(token: string) {
+	const expiresAt = DateTime.utc().plus({ days: 30 }).toJSDate();
+
+	// TODO register the session to the system world
+
+	return { expiresAt };
+}
 
 export async function validateSessionToken(token: string) {
 	const content = await worldstore.getWorldContent('_system');
