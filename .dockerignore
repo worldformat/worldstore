@@ -1,0 +1,19 @@
+# Node & package managers
+node_modules
+npm-debug.log
+
+# Build artifacts
+/build
+/.svelte-kit
+
+# Env & local config
+.env
+.env.*
+.envrc
+.DS_Store
+
+# Git & misc
+.git
+.gitignore
+.vscode
+.idea
